@@ -15,7 +15,11 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', [ContactController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', [ContactController::class, 'index'])->name('dashboard');
+    Route::get('/contact/{contact}', [ContactController::class, 'show'])->name('contact.show');
+});
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
