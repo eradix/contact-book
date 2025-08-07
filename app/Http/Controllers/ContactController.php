@@ -26,9 +26,12 @@ class ContactController extends Controller
 
     public function show(Contact $contact)
     {
+        if ($contact->user->id !== auth()->user()->id) {
+            abort(403, 'You don\'t have access to this contact.');
+        }
         return Inertia::render('Contact', [
             'contact' => $contact,
-            'username' => auth()->user()->name
+            'username' => $contact->user->name
         ]);
     }
 }
