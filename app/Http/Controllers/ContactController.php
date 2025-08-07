@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Contact;
 use Inertia\Inertia;
+use App\Models\Contact;
 use Illuminate\Http\Request;
+use App\Exports\ContactsExport;
 use App\Service\ContactService;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 class ContactController extends Controller
@@ -33,5 +36,16 @@ class ContactController extends Controller
             'contact' => $contact,
             'username' => $contact->user->name
         ]);
+    }
+    public function exportExcel()
+    {
+        return Excel::download(new ContactsExport, 'contacts.xlsx');
+    }
+
+    public function exportPdf()
+    {
+        $contacts = Contact::all();
+        $pdf = Pdf::loadView('Pdf.contacts', compact('contacts'));
+        return $pdf->download('contacts.pdf');
     }
 }
