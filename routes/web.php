@@ -19,7 +19,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [ContactController::class, 'index'])->name('dashboard');
     Route::get('/contact/{contact}', [ContactController::class, 'show'])->name('contact.show');
     Route::get('/contacts/export/excel', [ContactController::class, 'exportExcel'])->name('contact.excel');
-    Route::get('/contacts/export/pdf', [ContactController::class, 'exportPdf'])->name('contact.pdf');
+    Route::get('/contacts/export/pdf/{userId}', [ContactController::class, 'exportPdf'])->name('contact.pdf');
 });
 
 
